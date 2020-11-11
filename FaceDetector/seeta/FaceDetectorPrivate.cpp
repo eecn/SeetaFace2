@@ -15,11 +15,13 @@
 
 #include "seeta/ImageProcess.h"
 
+
+// 宏定义计算三个值中的中间值 已知l<u
 #define  CLAMP(x, l, u)   ((x) < (l) ? (l) : ((x) > (u) ? (u) : (x)))
 
 
 
-
+// 使用字符ch 将字符串str分割成 多个字符数组 原str不变
 static std::vector<std::string> Split( const std::string &str, char ch )
 {
     std::vector<std::string> result;
@@ -32,10 +34,10 @@ static std::vector<std::string> Split( const std::string &str, char ch )
         if( right == std::string::npos ) break;
         left = right + 1;
     }
-    return std::move( result );
+    return std::move( result ); 
 }
 
-
+// 矩形结构体定义
 typedef struct Rect
 {
     int32_t x;
@@ -81,6 +83,7 @@ public:
             return false;
     }
 
+    // 计算两个矩形的交并比
     float IoU( const Rect &w1, const Rect &w2 ) {
         int xOverlap = std::max( 0, std::min( w1.x + w1.width - 1, w2.x + w2.width - 1 ) - std::max( w1.x, w2.x ) + 1 );
         int yOverlap = std::max( 0, std::min( w1.y + w1.height - 1, w2.y + w2.height - 1 ) - std::max( w1.y, w2.y ) + 1 );
@@ -430,6 +433,7 @@ void Impl::LoadModelBuffer( const char *model_buffer, int64_t buffer_lenght12, i
     SeetaCreateNet( model_[2], max_batch_size[1], type, &net_[2] );
 }
 
+// 对图像进行resize 
 bool Impl::ResizeImage( const unsigned char *src_im, int src_width, int src_height, int src_channels,
                         unsigned char *dst_im, int dst_width, int dst_height, int dst_channels,
                         int crop_x, int crop_y, int crop_w, int crop_h )
