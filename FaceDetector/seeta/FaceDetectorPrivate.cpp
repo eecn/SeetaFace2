@@ -373,7 +373,7 @@ std::vector<SeetaFaceInfo> Impl::TransWindow( const SeetaImageData &img, const S
     }
     return ret;
 }
-
+// 非极大值抑制
 std::vector<Rect> Impl::NMS( std::vector<Rect> &winList, bool local, float threshold )
 {
     if( winList.size() == 0 )
@@ -515,7 +515,7 @@ bool Impl::ResizeImage( const unsigned char *src_im, int src_width, int src_heig
     delete[] ny;
     return true;
 }
-
+// 对图像进行边缘0扩充
 bool Impl::PadImage( const unsigned char *src_im, int src_width, int src_height, int src_channels,
                      unsigned char *dst_im, int pad_w, int pad_h )
 {
@@ -530,6 +530,7 @@ bool Impl::PadImage( const unsigned char *src_im, int src_width, int src_height,
     return true;
 }
 
+// 将字符串转换成对应的int型数字
 int foo( char *c )
 {
     int n = 0;
@@ -565,7 +566,7 @@ static std::vector<int> version( const std::string &v )
     while( vi.size() < 3 ) vi.push_back( 0 );
     return std::move( vi );
 }
-
+// 字符串转int类型 k表示一千
 static int toint( const std::string &str )
 {
     if( str.empty() ) return 0;
@@ -575,7 +576,7 @@ static int toint( const std::string &str )
     }
     return std::atoi( str.c_str() );
 }
-
+// int型数字匹配字符串的结尾'\0'位置
 static bool match_end( const char *str, int i )
 {
     const char &ch = str[i];
@@ -629,7 +630,7 @@ static bool match_widthxheight( const std::string &str )
 {
     return match_pre_num1( str.c_str(), 0 );
 }
-
+// 包括前面的toint函数 主要是为了识别输入的图像的分辨率 形如1280x1960 1kx2k
 static void SplitImageLimit( const std::string &model_path, int *width, int *height )
 {
     auto model_marks = Split( model_path, '.' );
@@ -736,7 +737,7 @@ FaceDetectorPrivate::CoreSize FaceDetectorPrivate::GetCoreSize() const
     Impl *p = ( Impl * )impl_;
     return CoreSize( p->width_limit_, p->height_limit_ );
 }
-
+// 图像缩放 这里对于图像放大直接返回原图像
 static seeta::Image ScaleImage( const seeta::Image &image, int width, int height, float *scale = nullptr )
 {
     if( scale ) *scale = 1;

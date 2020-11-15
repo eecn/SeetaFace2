@@ -6,7 +6,7 @@
 #include <cfloat>
 
 
-
+// 将灰度图映射为彩色图，每一个通道都是原来的灰度图像
 const seeta::Image seeta::color( const Image &img )
 {
     if( img.channels() == 3 ) return img;
